@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.mobile.min.js"></script>
+<style>
+/****去掉jquery mobile的loading****/
+ .ui-loader-default{ display:none}
+ .ui-mobile-viewport{ border:none;}
+ .ui-page {padding: 0; margin: 0; outline: 0}
+
+.btn {position: relative; display: block;width: 52px;height: 25px;}
+.btn:before{content: "";display: block;width: 100%;height: 100%;border-radius: 20px;border:1px solid #dfdfdf;position: absolute;}  
+.btn.cur:before{background: #ed6459;border-color: #ed6459;transition: border ease .2s;}
+
+.btn:after{
+    content: "";
+    background: #fff;
+    display: block;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    z-index: 10;
+    border:0;
+    border-radius: 100%;  
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    transition: left ease .2s;
+}
+.btn.cur:after{left: 29px;}
+</style>
+</head>
+<body>
+<div>
+    <label  class="ui-switch">
+        <span class="btn"></span>
+    </label>
+</div>
+<script>
+     $(".btn").on('swipe',function(){
+        if($(this).hasClass("cur")) {
+            $(this).removeClass("cur");
+        }
+        else{
+            $(this).addClass("cur");
+        }
+    });
+</script>
+</body>
+</html>
