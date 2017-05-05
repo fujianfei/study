@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>text scroll top</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="js/jquery.min.js"></script>
+</head>
+<body>
+<style type="text/css">
+*{margin: 0;padding: 0;}
+li,a{list-style: none}
+.slideTxtBox{width: 400px;height: 30px;margin: 30px auto;padding-left: 20px;background: #f8f8f8;border: 1px solid #eee;overflow: hidden;position: relative}
+.hd{position: relative;left: 0;top: 0;}
+.hd a{display:block;padding-right: 20px;line-height: 30px;height: 30px;}
+
+
+</style>    
+<div class="slideTxtBox">
+<div class="hd">
+<a href="">aaaaaaaaaaaaaa</a>
+<a href="">1111111111111</a>
+<a href="">2222222222222222</a>
+<a href="">3333</a>
+<a href="">444</a>
+<a href="">555555555555</a>
+</div>
+
+</div>
+<script type="text/javascript">
+$(function(){
+	var timer=setInterval(autoScroll,1000);		
+	$('.hd').hover(function() {
+	clearInterval(timer);
+}, function() {	
+	timer=setInterval(autoScroll,1000);
+});
+	function autoScroll(){
+	$('.hd').animate({'top': '-30'},function(){
+		$('.hd a').eq(0).appendTo('.hd');	
+		$('.hd').css('top', '0')
+	})	
+	}
+})
+
+
+</script>
+</body>
+</html>

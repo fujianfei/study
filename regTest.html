@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>正则判断</title>
+        <script src="js/jquery.min.js"></script>      
+    </head>     
+    <body>
+        <ul>
+            <li><em>姓名</em><input type="text" value="" onblur="checkUserName(this)" />
+            <span class="inputTip" ></span>
+            </li>
+            <li><em>身份证号码</em>
+            <input type="text" value="" onblur="checkUserCd(this)"/>
+             <span class="inputTip" ></span>
+            </li>
+            <li><em><i>*</i>联系电话</em>
+            <input type="text" value="" onblur="checkMobile(this)"/>
+             <span class="inputTip"></span>
+            </li>
+        </ul>
+    </body>
+
+<script type="text/javascript">
+//检查用户名是否合法 
+function checkUserName(e) {
+var s=$(e).val();        
+var reg = /\S/;
+        if(reg.test(s)){
+          $(e).siblings('span').attr("class", "inputTip").text("√");  
+        }
+        else{
+           $(e).siblings('span').attr("class", "errorTip").text("不能为空！");
+        }
+}
+ //检查身份证
+var Cdbool=false;
+function checkUserCd(e) {    
+       //身份证的地区代码对照  
+        var aCity = { 11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古", 21: "辽宁", 22: "吉林", 23: "黑龙江", 31: "上海", 32: "江苏", 33: "浙江", 34: "安徽", 35: "福建", 36: "江西", 37: "山东", 41: "河南", 42: "湖北", 43: "湖南", 44: "广东", 45: "广西", 46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南", 54: "西藏", 61: "陕西", 62: "甘肃", 63: "青海", 64: "宁夏", 65: "新疆", 71: "台湾", 81: "香港", 82: "澳门", 91: "国外" };           
+        //获取证件号码  
+        var person_id=$(e).val();        
+        //合法性验证  
+        var sum = 0;  
+        //出生日期  
+        var birthday;  
+        //验证长度与格式规范性的正则  
+        var pattern=new RegExp(/(^\d{15}$)|(^\d{17}(\d|X)$)/); 
+        if (pattern.test(person_id)) {  
+            //验证身份证的合法性的正则  
+            pattern=new RegExp(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/);  
+            if(pattern.test(person_id)) {  
+             //获取15位证件号中的出生日期并转位正常日期       
+                birthday = "19"+person_id.substring(6,8)+"-"+person_id.substring(8,10)+"-"+person_id.substring(10,12);                          
+            }                 
+            else   
+            {     
+                person_id = person_id.replace(/x|X$/i,"a"); 
+                //获取18位证件号中的出生日期  
+                birthday =person_id.substring(6,10)+"-"+person_id.substring(10,12)+"-"+person_id.substring(12,14);                  
+                //校验18位身份证号码的合法性  
+                for (var i = 17; i >= 0; i--)   
+                {  
+                    sum += (Math.pow(2, i) % 11) * parseInt(person_id.charAt(17 - i), 11);  
+                }  
+                if (sum % 11 != 1) {   
+                    $(e).siblings('.inputTip').text("身份证号码不符合国定标准，请核对！");
+                    Cdbool=false;   
+                }
+                else {
+                    $(e).siblings('.inputTip').text("");
+                     Cdbool=true;
+                    }   
+            } 
+            //检测证件地区的合法性                                  
+            if (aCity[parseInt(person_id.substring(0, 2))] == null)   
+            {  
+            $(e).siblings('.inputTip').text("证件地区未知，请核对！");
+            Cdbool=false;                         
+            }  
+            var dateStr = new Date(birthday.replace(/-/g, "/"));                  
+              
+            //alert(birthday +":"+(dateStr.getFullYear()+"-"+ Append_zore(dateStr.getMonth()+1)+"-"+ Append_zore(dateStr.getDate())))  
+            if (birthday != (dateStr.getFullYear()+"-"+ Append_zore(dateStr.getMonth()+1)+"-"+ Append_zore(dateStr.getDate()))) {  
+                $(e).siblings('.inputTip').text("证件出生日期非法！");
+                Cdbool=false;
+            } 
+         }  
+        else  
+        {     
+            $(e).siblings('.inputTip').text("证件号码格式非法！"); 
+            Cdbool=false;   
+        } 
+        console.log(Cdbool);      
+    }
+
+function Append_zore(obj)  
+    {  
+        if(obj<10) return "0" +""+ obj;  
+        else return obj;  
+    }  
+//校验手机号码 
+function checkMobile(e) {
+var s=$(e).val();       
+var reg =  /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+        if(reg.test(s)){
+            $(e).siblings('span').attr("class", "inputTip").text("√");   
+        }else{
+            $(e).siblings('span').attr("class", "errorTip").text("请输入正确的手机号码"); 
+        }
+}
+</script>
+
+</html>
+
